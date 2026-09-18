@@ -5,7 +5,62 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    const handleResponse = async (response, accept) => {
+      const content = document.querySelector('#content');
+      
+      switch(response.status) {
+        case 200:
+          content.innerHTML = `<h1>Success</h1>`;
+          break;
+        case 400:
+          content.innerHTML = '<h1>Bad Request</h1>';
+          break;
+        case 401:
+          content.innerHTML = '<h1>Unauthorized</h1>';
+          break;
+        case 403:
+          content.innerHTML = `<h1>Forbidden</h1>`;
+          break;
+        case 500:
+          content.innerHTML = `<h1>Internal Server Error</h1>`;
+          break;
+        case 501:
+          content.innerHTML = `<h1>Not Implemented</h1>`;
+          break;
+        default: 
+          content.innerHTML = `<h1>Resource Not Found</h1>`;
+          break;
+      }
 
+      if (accept === 'application/json') {
+        const obj = await response.json();
+        if (obj.message) {
+          content.innerHTML += `<p>Message: ${obj.message}</p>`;
+        }
+      } else {
+        const xml = await response.text();
+        content.innerHTML += `<pre>${xml}</pre>`;
+      }
+    }
+
+    const init = () => {
+      const sendBtn = document.querySelector('#send');
+
+      sendBtn.addEventListener('click', async () => {
+        const pathname = document.querySelector('#page').value;
+        const accept = document.querySelector('#type').value;
+
+        const res = await fetch(pathname, {
+          headers: {
+            'Accept': accept,
+          },
+        });
+
+        handleResponse(res, accept);
+      })
+    }
+
+    window.onload = init;
   </script>
 </head>
 <body>

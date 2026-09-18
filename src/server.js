@@ -1,22 +1,36 @@
 const http = require('http');
 const htmlHandler = require('./htmlHandler.js');
+const jsonHandler = require('./jsonHandler.js');
+const utils = require('./utils.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
+
+// TODO: display returned xml on client
+// TODO: fix going to /badRequest, etc downloads the file instead of displaying in browser
+// TODO: print the raw JSON or XML text strings (before you parse them) to the conso
 
 const urlStruct = {
     '/': htmlHandler.getClient,
     '/style.css': htmlHandler.getStyle,
+    '/success': jsonHandler.getSuccess,
+    '/badRequest': jsonHandler.getBadRequest,
+    '/unauthorized': jsonHandler.getUnauthorized,
+    '/forbidden': jsonHandler.getForbidden,
+    '/internal': jsonHandler.getInternal,
+    '/notImplemented': jsonHandler.getNotImplemented,
+    notFound: jsonHandler.getNotFound,
 };
 
 const onRequest = (request, response) => {
-    const protocol = request.connection.encrypted ? 'https' : 'http';
-    const parsedURL = new URL(request.url, `${protocol}://${request.headers.host}`);
+    const parsedURL = utils.parseURL(request);
 
     if (urlStruct[parsedURL.pathname]) {
         urlStruct[parsedURL.pathname](request, response);
+    } else {
+        urlStruct.notFound(request, response);
     }
 };
 
 http.createServer(onRequest).listen(port, () => {
-    console.log(`Listening on 127.0.0.1: ${port}`);
+    console.log(`Listening on 127.0.0.1:${port}`);
 });
