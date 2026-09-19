@@ -5,9 +5,7 @@ const utils = require('./utils.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-// TODO: display returned xml on client
 // TODO: fix going to /badRequest, etc downloads the file instead of displaying in browser
-// TODO: print the raw JSON or XML text strings (before you parse them) to the conso
 
 const urlStruct = {
     '/': htmlHandler.getClient,

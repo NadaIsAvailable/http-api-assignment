@@ -34,12 +34,27 @@
 
       if (accept === 'application/json') {
         const obj = await response.json();
+
+        console.log(obj);
+
         if (obj.message) {
           content.innerHTML += `<p>Message: ${obj.message}</p>`;
         }
       } else {
-        const xml = await response.text();
-        content.innerHTML += `<pre>${xml}</pre>`;
+        const xmlString = await response.text();
+
+        console.log(xmlString);
+
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+        const message = xmlDoc.getElementsByTagName('message')[0].textContent;
+        content.innerHTML += `<p>Message: ${message}</p>`;
+
+        if (xmlDoc.getElementsByTagName('id')) {
+          const id = xmlDoc.getElementsByTagName('id')[0].textContent;
+          content.innerHTML += `<p>ID: ${id}</p>`;
+        }
       }
     }
 
