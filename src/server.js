@@ -5,8 +5,6 @@ const utils = require('./utils.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-// TODO: fix going to /badRequest, etc downloads the file instead of displaying in browser
-
 const urlStruct = {
     '/': htmlHandler.getClient,
     '/style.css': htmlHandler.getStyle,

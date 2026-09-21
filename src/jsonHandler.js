@@ -13,7 +13,7 @@ const respond = (request, response, statusCode, contentType, content) => {
 };
 
 const getSuccess = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'This is a successful response',
     };
@@ -21,7 +21,7 @@ const getSuccess = (request, response) => {
 };
 
 const getBadRequest = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'Missing valid query parameter set to true',
         'id': 'badRequest',
@@ -42,7 +42,7 @@ const getBadRequest = (request, response) => {
 };
 
 const getUnauthorized = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'Missing loggedIn query parameter set to yes',
         'id': 'unauthorized',
@@ -63,7 +63,7 @@ const getUnauthorized = (request, response) => {
 };
 
 const getForbidden = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'You do not have access to this content.',
         'id': 'forbidden',
@@ -72,7 +72,7 @@ const getForbidden = (request, response) => {
 };
 
 const getInternal = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'Internal Server Error. Something went wrong.',
         'id': 'internalError',
@@ -81,7 +81,7 @@ const getInternal = (request, response) => {
 };
 
 const getNotImplemented = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'A get request for this page has not been implemented yet. Check again later for updated content.',
         'id': 'notImplemented',
@@ -90,7 +90,7 @@ const getNotImplemented = (request, response) => {
 };
 
 const getNotFound = (request, response) => {
-    let contentType = request.headers.accept ?? 'application/json';
+    let contentType = utils.getContentType(request);
     let content = {
         'message': 'The page you are looking for was not found.',
         'id': 'notFound',

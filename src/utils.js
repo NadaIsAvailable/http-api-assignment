@@ -14,7 +14,13 @@ const buildXML = (elements) => {
     return xml;
 };
 
+const getContentType = (request) => {
+    const accept = request.headers.accept || '';
+    return accept.includes('text/xml') ? 'text/xml' : 'application/json';
+};
+
 module.exports = {
     parseURL,
     buildXML,
+    getContentType,
 };
